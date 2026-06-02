@@ -1,0 +1,296 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set()
+
+x = np.array([3.5,0.35,3.5,-2.0,1.5,-0.7])
+w_init = -1
+b_init = 2
+def sigmoid(a):
+  return 1/(1+np.exp(-a))
+def relu(a):
+  return np.maximum(0, a)
+def tanh(a):
+  return np.tanh(a)
+def leaky_relu(a,alpha = 0.01):
+  return np.where(a>0,a,alpha * a)
+def softplus(a):
+  return np.log(1+np.exp(a))
+def softmax(a):
+  exp_a = np.exp(a-np.max(a))
+  return exp_a/np.sum(exp_a)
+def identity(x):
+  return x
+def ELU(x,alpha=0.01):
+  return np.where(x<0,alpha*(np.exp(x)-1),x)
+def swish(x,beta=1.0):
+  return x*sigmoid(beta*x)
+activations = {
+    "Sigmoid":sigmoid,
+    "ReLu":relu,
+    "tanh":tanh,
+    'leaky ReLu':leaky_relu,
+    'Softmax': softmax,
+    'Softplus':softplus
+}
+activation_fxn = sigmoid
+print("Activation Outputs \n")
+for i in x:
+  a = w_init * i + b_init
+  h = activation_fxn(a)
+  print(f"Input:{i:5.2f} Output :{h:4f}")
+softmax_output = softmax(w_init*x+b_init)
+print("\nSoftamx Output")
+print(softmax_output)
+
+a_values = np.linspace(-5,5,200)
+plt.figure(figsize=(12,10))
+for j , (name,func) in enumerate(activations.items(),1):
+  plt.subplot(3,2,j)
+  output = func(a_values)
+  plt.plot(a_values,output,linewidth=2)
+  plt.title(name)
+  plt.xlabel('input')
+  plt.ylabel("output")
+  plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+def sigmoid(x):
+  return 1/(1+np.exp(-x))
+def relu(x):
+  return np.maximum(0, x)
+def tanh(x):
+  return np.tanh(x)
+def leaky_relu(x,alpha = 0.01):
+  return np.where(a>0,x,alpha * x)
+def softplus(x):
+  return np.log(1+np.exp(x))
+def softmax(x):
+  exp_a = np.exp(x-np.max(x))
+  return exp_a/np.sum(exp_a)
+def identity(x):
+  return x
+def ELU(x,alpha=0.01):
+  return np.where(x<0,alpha*(np.exp(x)-1),x)
+def swish(x,beta=1.0):
+  return x*sigmoid(beta*x)
+x = np.linspace(-10,10,100)
+plt.figure(figsize=(15,12))
+plt.subplot(3,3,1)
+plt.plot(x,sigmoid(x))
+plt.title('Sigmoid')
+plt.xlabel('x')
+plt.ylabel("sigmoid(x)")
+plt.subplot(3,3,2)
+plt.plot(x,relu(x))
+plt.title('Relu')
+plt.xlabel('x')
+plt.ylabel("Relu(x)")
+plt.subplot(3,3,3)
+plt.plot(x,tanh(x))
+plt.title('tan')
+plt.xlabel('x')
+plt.ylabel("tanh(x)")
+plt.subplot(3,3,4)
+plt.plot(x,softmax(x))
+plt.title('softmax)')
+plt.xlabel('x')
+plt.ylabel("softmax(x)")
+plt.subplot(3,3,5)
+plt.plot(x,leaky_relu(x))
+plt.title('leaky_relu')
+plt.xlabel('x')
+plt.ylabel("leaky_relu(x)")
+plt.subplot(3,3,6)
+plt.plot(x,ELU(x))
+plt.title('ELU')
+plt.xlabel('x')
+plt.ylabel("ELU(x)")
+plt.subplot(3,3,7)
+plt.plot(x,identity(x))
+plt.title('identity')
+plt.xlabel('x')
+plt.ylabel("identity(x)")
+plt.subplot(3,3,7)
+plt.plot(x,softplus(x))
+plt.title('softplus')
+plt.xlabel('x')
+plt.ylabel("softplus(x)")
+plt.show()
+
+import numpy as np
+input = np.array([[0,0],[0,1],[1,0],[1,1]])
+weights = np.array([1,1])
+dot_prod = input @ weights
+print(dot_prod)
+def activation(x,theta):
+  if x>=theta:
+    return 1
+  else:
+    return 0
+T = 2
+output = []
+for i in range(0,4):
+  output.append(activation(dot_prod[i],T))
+print(output)
+
+input = np.array([[0,0],[0,1],[1,0],[1,1]])
+weights = np.array([1,1])
+dot_prod = input @ weights
+print(dot_prod)
+def activation(x,theta):
+  if x>=theta:
+    return 1
+  else:
+    return 0
+T = 1
+output = []
+for i in range(0,4):
+  output.append(activation(dot_prod[i],T))
+print(output)
+
+import torch.nn as nn
+import torch
+import numpy as np
+x = np.array([[1,0.2,0.8,0.6]])
+trx = torch.tensor(x,dtype = torch.float32)
+class perceptron_stack(nn.Module):
+  def __init__(self):
+    super().__init__()
+    self.lay1 = nn.Linear(4,3,bias = True)
+    self.lay2 = nn.Linear(3,2,bias = True)
+    self.act1 = nn.Sigmoid()
+    self.act2 = nn.Softmax(dim = -1)
+  def forward(self,x):
+    out = x
+    out = self.lay1(out)
+    out = self.act1(out)
+    out = self.lay2(out)
+    out = self.act2(out)
+    return out
+fn = perceptron_stack()
+weight_array = np.array([[0.6,0.3,0.8],[0.2,0.2,0.1],[0.8,0.8,0.3],[0.1,0.3,0.6]]).T
+bias_array = np.array([[0.4,0,-0.3]])
+tens = torch.tensor(weight_array,dtype=torch.float32)
+bias1 = torch.tensor(bias_array,dtype=torch.float32)
+fn.lay1.weight = nn.Parameter(tens)
+fn.lay1.bias = nn.Parameter(bias1)
+weight_array2 = np.array([[0.2,0.4],[0.6,0.7],[0.3,0.1]]).T
+bias_array2 = np.array([[0.3,0.2]])
+tens2 = torch.tensor(weight_array2,dtype=torch.float32)
+bias2 = torch.tensor(bias_array2,dtype=torch.float32)
+fn.lay2.weight = nn.Parameter(tens2)
+fn.lay2.bias = nn.Parameter(bias2)
+def fit(x,model):
+  yhat = model(x)
+  return yhat
+y = fit(x,fn)
+print(y)
+def linorm(y):
+  y1 = torch.tensor([[0.8,0.1]])
+  print("L1 NORM IS",torch.abs(y-y1).sum())
+def l2norm(y):
+  a = (y1-y[0,0])**2
+  b = (y1-y[0,1])**2
+  print("L2 NORM IS",torch.sqrt(a+b))   #(a+b)**(1/2)
+linorm(y)
+l2norm(y)
+
+import torch.nn as nn
+import torch
+import numpy as np
+x = np.array([[1,0.2,0.8,0.6]])
+trx = torch.tensor(x,dtype = torch.float32)
+class perceptron_stack(nn.Module):
+  def __init__(self):
+    super().__init__()
+    self.lay1 = nn.Linear(4,3,bias = True)
+    self.lay2 = nn.Linear(3,2,bias = True)
+    self.act1 = nn.Sigmoid()
+    self.act2 = nn.Softmax(dim = -1)
+  def forward(self,x):
+    out = x
+    out = self.lay1(out)
+    out = self.act1(out)
+    out = self.lay2(out)
+    out = self.act2(out)
+    return out
+fn = perceptron_stack()
+weight_array = np.array([[0.6,0.3,0.8],[0.2,0.2,0.1],[0.8,0.8,0.3],[0.1,0.3,0.6]]).T
+bias_array = np.array([[0.4,0,-0.3]])
+tens = torch.tensor(weight_array,dtype=torch.float32)
+bias1 = torch.tensor(bias_array,dtype=torch.float32)
+fn.lay1.weight = nn.Parameter(tens)
+fn.lay1.bias = nn.Parameter(bias1)
+weight_array2 = np.array([[0.2,0.4],[0.6,0.7],[0.3,0.1]]).T
+bias_array2 = np.array([[0.3,0.2]])
+tens2 = torch.tensor(weight_array2,dtype=torch.float32)
+bias2 = torch.tensor(bias_array2,dtype=torch.float32)
+fn.lay2.weight = nn.Parameter(tens2)
+fn.lay2.bias = nn.Parameter(bias2)
+def fit(x_tensor,model):
+  yhat = model(x_tensor)
+  return yhat
+y = fit(trx,fn)
+print(y)
+y1 = torch.tensor([[0.8,0.1]]) # Defined y1 globally for use in both norm functions
+def linorm(y):
+  print("L1 NORM IS",torch.abs(y-y1).sum())
+def l2norm(y):
+  print("L2 NORM IS",torch.norm(y - y1, p=2)) # Corrected L2 norm calculation
+linorm(y)
+l2norm(y)
+
+import numpy as np
+import torch
+import torch.nn as nn
+x = np.array([[1,0.2,0.8,0.6]])
+trx = torch.tensor(x,dtype = torch.float32)
+class PerceptronStack(nn.Module):
+  def __init__(self):
+    super().__init__()
+    self.lay1 = nn.Linear(4,3,bias = True)
+    self.lay2 = nn.Linear(3,2,bias = True)
+    self.act1 = nn.Sigmoid()
+    self.act2 = nn.Softmax(dim = -1)
+  def forward(self,x):
+    out = x
+    out = self.lay1(out)
+    out = self.act1(out)
+    out = self.lay2(out)
+    out = self.act2(out)
+    return out
+fn = PerceptronStack()
+weight_array = np.array([[0.6,0.3,0.8],
+                        [0.2,0.2,0.1],
+                        [0.8,0.8,0.3],
+                        [0.1,0.3,0.6]]).T
+bias_array = np.array([[0.4,0,-0.3]])
+tens = torch.tensor(weight_array,dtype=torch.float32)
+bias1 = torch.tensor(bias_array,dtype=torch.float32)
+fn.lay1.weight = nn.Parameter(tens)
+fn.lay1.bias = nn.Parameter(bias1)
+weight_array2 = np.array([[0.2,0.4],
+                        [0.6,0.7],
+                        [0.3,0.1]]).T
+bias_array2 = np.array([[0.3,0.2]])
+tens2 = torch.tensor(weight_array2,dtype=torch.float32)
+bias2 = torch.tensor(bias_array2,dtype=torch.float32)
+fn.lay2.weight = nn.Parameter(tens2)
+fn.lay2.bias = nn.Parameter(bias2)
+def fit(x_tensor,model):
+  yhat = model(x_tensor)
+  return yhat
+y = fit(trx, fn)
+print("Predicted Output:")
+print(y)
+target = torch.tensor([[0.8, 0.1]], dtype=torch.float32)
+def l1norm(y, target):
+    l1 = torch.abs(y - target).sum()
+    print("L1 NORM IS :", l1.item())
+def l2norm(y, target):
+    l2 = torch.sqrt(torch.sum((y - target) ** 2))
+    print("L2 NORM IS :", l2.item())
+l1norm(y, target)
+l2norm(y, target)
