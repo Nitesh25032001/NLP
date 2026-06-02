@@ -1,0 +1,742 @@
+import nltk
+
+nltk.download('book')
+
+from nltk.book import *
+
+print(text1)
+
+print(text2)
+
+print(text3)
+
+from nltk.corpus import  brown,gutenberg
+from nltk.corpus import  webtext
+from nltk.corpus import  state_union
+
+
+text1.concordance("Nantucket")
+
+text1.concordance("Prophet")
+
+
+text1.similar("Monstrous")
+
+
+len(text1)
+
+
+len(sorted(set(text1)))
+
+len(set(text1))/len(text1)
+
+text1.count("Monstrous")
+
+
+v = set(text1)
+long_word = [w for w in v if len(w) >15]
+sorted(long_word)
+
+len(sorted(long_word))
+
+import nltk
+from nltk.tokenize import word_tokenize,sent_tokenize
+
+nltk.download('punkt_tab')
+
+text = " Hello everyone. Welcome to my simple and boring life"
+word_tokenize(text)
+
+sent_tokenize(text)
+
+nltk.download("stopwords")
+from nltk.corpus import stopwords
+stop_words = set(stopwords.words('english'))
+print(stop_words)
+
+text = "Dear students,this is a sample sentence showing stopwise removal"
+stop_words = set(stopwords.words('english'))
+tokens = word_tokenize(text.lower())
+filtered_tokens = [word for word in tokens if word not in stop_words]
+print(tokens) #original
+print(filtered_tokens)   #filtered tokens
+
+nltk.download('FreqDist')
+def find_50_nost_frequent_words(text):
+    fdist = FreqDist(w.lower() for w in text if w.isalpha() and w.lower() not in stopwords.words('english'))
+    return fdist.most_common(50)
+
+find_50_nost_frequent_words(text1)
+
+
+
+
+sent = ['she','sells','sea','shells','by','the','sea','shore']
+print(([w for w in sent if w.startswith('sh')]))
+print([w for w in sent if len(w) >4])
+
+w = 'Hello'
+print(w.isupper())
+print(not w.islower())
+
+w = 'HELLO'
+print(w.isupper())
+print(not w.islower())
+
+def find_50_most_frequent_bigrams(text):
+  bigram = list(nltk.bigrams(text))
+  fdist = FreqDist(b for b in bigram if b[0].isalpha() and b[1].isalpha()
+  and b[0] not in stopwords.words('english')
+  and b[1] not in stopwords.words('english'))
+  return fdist.most_common(50)
+
+
+
+find_50_most_frequent_bigrams(text1)
+
+nltk.corpus.gutenberg.fileids()
+
+bible = nltk.corpus.gutenberg.words('bible-kjv.txt')
+bible
+
+for words in bible[:100]:
+  print(words,sep = ' ',end=' ')
+
+
+v = set(text1)
+loong_words = [w for w in v if len(w) > 10] #can do greater, less , equals
+sorted(loong_words)
+
+fdist5 = FreqDist(text5)
+sorted(w for w in set(text5) if len(w)>7 and fdist5[w]>10)
+
+sorted(set(word for word in text3 if word.endswith('ess')))
+
+sorted(set(word for word in text3 if word.startswith('pas')))
+
+
+s = "Can't we just use well known NLP tools? They're awesome,aren't they?"
+from nltk.tokenize import RegexpTokenizer
+tokenizer = RegexpTokenizer(r"[\w'-]+|]\S+")
+tokenizer.tokenize(s)
+
+from nltk.tokenize import word_tokenize
+s = "Can't we just use well known NLP tools? They're awesome,aren't they?"
+word_tokenize(s)
+
+a = "Good Morning. The cost of bread is $125.15\nin Chennai. Please buy me\nthere of them. "
+tokenizer = RegexpTokenizer(r'\w+|\$[\d\.]+|\S+')
+tokenizer.tokenize(a)
+
+from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize
+
+stemmer = PorterStemmer()
+
+words = ["running", "runs", "runner", "easily", "fairly", "universal", "universally", "connection", "connected", "connecting", "connects"]
+
+stemmed_words = [stemmer.stem(word) for word in words]
+
+print(f"Original words: {words}")
+print(f"Stemmed words: {stemmed_words}")
+
+sentence = "He was running in the park and runs fast. His connections are strong."
+tokens = word_tokenize(sentence)
+stemmed_sentence_tokens = [stemmer.stem(word) for word in tokens]
+print(f"\nOriginal sentence tokens: {tokens}")
+print(f"Stemmed sentence tokens: {stemmed_sentence_tokens}")
+
+list_words = ['running', 'walking', 'singing', 'playing', 'reading', 'writing', 'thinking']
+from nltk.stem.porter import *
+stemmer = PorterStemmer()
+stem_words = [stemmer.stem(list_words) for list_words in list_words]
+print(stem_words)
+
+list_words = ['running', 'walking', 'singing', 'playing', 'reading', 'writing', 'thinking']
+from nltk.stem.porter import *
+from nltk import LancasterStemmer
+stemmer = LancasterStemmer()
+stem_words = [stemmer.stem(list_words) for list_words in list_words]
+print(stem_words)
+
+from nltk.stem import PorterStemmer, LancasterStemmer
+
+list_words = ['running', 'walking', 'singing', 'playing', 'reading', 'writing', 'thinking', 'connection', 'connected', 'connecting', 'connections', 'universally', 'universal', 'generously', 'generation']
+
+porter_stemmer = PorterStemmer()
+lancaster_stemmer = LancasterStemmer()
+
+porter_stems = [porter_stemmer.stem(word) for word in list_words]
+lancaster_stems = [lancaster_stemmer.stem(word) for word in list_words]
+
+import pandas as pd
+comparison_df = pd.DataFrame({
+    'Original Word': list_words,
+    'Porter Stem': porter_stems,
+    'Lancaster Stem': lancaster_stems
+})
+display(comparison_df)
+
+import nltk
+from nltk import pos_tag
+
+nltk.download('punkt') # Download the standard Punkt tokenizer
+nltk.download('averaged_perceptron_tagger') # Download the POS tagger
+nltk.download('punkt_tab') # Download punkt_tab for word_tokenize
+nltk.download('averaged_perceptron_tagger_eng') # Download the specific English POS tagger
+
+sent = "They wind back the cloc, while we chase after the wind."
+nltk.pos_tag(nltk.word_tokenize(sent))
+
+import nltk
+from nltk.corpus import brown
+nltk.download('brown') # Explicitly download the brown corpus
+brown_tagged_sents = brown.tagged_sents(categories = 'news')
+unigram_tagger = nltk.UnigramTagger(brown_tagged_sents)
+test_text = ['hello','world','natural','language','processing']
+unigram_tagger.tag(test_text)
+
+
+brown_tagged = brown.tagged_words()
+helper_list = [t for (_,t) in brown_tagged]
+fd = nltk.FreqDist(helper_list)
+fd.most_common(20)
+
+
+import nltk
+text = 'NLTK is a leading platform for building Python programs to work human language data.It provides easy-to-use interfaces to over 50 corpus and lexical resources such as WordNet,along with a suite of text processing libraries for classification,tokenization,stemming,tagging,parsing and semantic reasoning,wrappers for industrial-strength NLP libraries, and and active discussion forum.'
+tokens = nltk.word_tokenize(text)
+pos_tags = nltk.pos_tag(tokens)
+display(pos_tags)
+
+
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+import nltk
+
+nltk.download('wordnet') # Download the WordNet corpus
+
+lemmatizer = WordNetLemmatizer()
+text = 'The cats are playing in the garden'
+tokens = word_tokenize(text)
+lemmatized_words = [lemmatizer.lemmatize(word) for word in tokens]
+print(text)
+print(lemmatized_words)
+
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+
+
+lemmatizer = WordNetLemmatizer()
+text_to_lemmatize = "the children are running quickly towards the playground"
+
+tokens = word_tokenize(text_to_lemmatize)
+lemmatized_words = [lemmatizer.lemmatize(word) for word in tokens]
+
+print(f"Original text: {text_to_lemmatize}")
+print(f"Lemmatized words: {lemmatized_words}")
+
+
+import nltk
+nltk.download('punkt_tab')
+
+from nltk.stem import PorterStemmer, LancasterStemmer
+from nltk.stem.snowball import SnowballStemmer
+from nltk.tokenize import word_tokenize
+
+sample_text = "running runs runner easily fairly universal universally connection connected connecting connections generations generation"
+
+tokens = word_tokenize(sample_text)
+
+porter_stemmer = PorterStemmer()
+lancaster_stemmer = LancasterStemmer()
+snowball_stemmer = SnowballStemmer("english") # Specify language for SnowballStemmer
+
+porter_stems = [porter_stemmer.stem(word) for word in tokens]
+lancaster_stems = [lancaster_stemmer.stem(word) for word in tokens]
+snowball_stems = [snowball_stemmer.stem(word) for word in tokens]
+
+import pandas as pd
+comparison_df = pd.DataFrame({
+    'Original Word': tokens,
+    'Porter Stem': porter_stems,
+    'Lancaster Stem': lancaster_stems,
+    'Snowball Stem': snowball_stems
+})
+display(comparison_df)
+
+
+import nltk
+nltk.download('punkt_tab')
+
+from nltk.stem import PorterStemmer, LancasterStemmer
+from nltk.stem.snowball import SnowballStemmer
+from nltk.tokenize import word_tokenize
+
+sample_text = "connect connected connection studies studying flies university universe problem maximum running ran happiness"
+
+
+tokens = word_tokenize(sample_text)
+
+
+porter_stemmer = PorterStemmer()
+lancaster_stemmer = LancasterStemmer()
+snowball_stemmer = SnowballStemmer("english")
+
+porter_stems = [porter_stemmer.stem(word) for word in tokens]
+lancaster_stems = [lancaster_stemmer.stem(word) for word in tokens]
+snowball_stems = [snowball_stemmer.stem(word) for word in tokens]
+
+print("Orginal :" , tokens)
+print("Porter :" , porter_stems)
+print("Lancaster :" , lancaster_stems)
+print("Snowball :" , snowball_stems)
+
+
+import re
+
+def segment_sentences(text):
+    text = re.sub(r'\b(Dr|Mr|Mrs|Ms|Prof|M\.Sc|Ph\.D)\.', r'\1<ABBR>', text)
+    text = re.sub(r'(\d)\.(\d)', r'\1<DECIMAL>\2', text)
+    sentences = re.split(r'\.(?=\s+[A-Z])', text)
+    sentences = [s.replace('<ABBR>', '.').replace('<DECIMAL>', '.') for s in sentences if s.strip()]
+    return sentences
+
+sample_text = "He scored 9.69 in his M.Sc. exams. Dr. Nitesh completed his Ph.D. in 2023. He is doing good in life now."
+
+sentences = segment_sentences(sample_text)
+for s in sentences:
+    print(s)
+print("No of sentences:", len(sentences))
+
+
+import re
+import nltk
+from nltk.book import text3
+
+text = ' '.join(text2[:200])
+text = text.lower()
+text = re.sub(r'\d+', 'number', text)
+text = re.sub(r'\s+', ' ', text)
+
+words = text.split()
+normalized = []
+
+for w in words:
+    if w.endswith('ing') and len(w[:-3]) >= 3:
+        normalized.append(w[:-3])
+    elif w.endswith('ed') and len(w[:-2]) >= 3:
+        normalized.append(w[:-2])
+    else:
+        normalized.append(w)
+
+print(' '.join(normalized))
+
+import nltk
+from nltk.corpus import wordnet
+nltk.download('wordnet')
+synset = wordnet.synsets('book')  # instead of book you can use other words as well
+print(synset)
+
+print('Word and Type : ' + synset[0].name())
+print("The meaning of the word:"+synset[1].definition())
+print("Example of book:"+str(synset[1].examples()))
+
+print('Word and Type : ' + synset[1].name())
+
+print("The meaning of the word:"+synset[0].definition())
+
+print("The meaning of the word:"+synset[1].definition())
+
+print("Example of book:"+str(synset[0].examples()))
+
+print("Example of book:"+str(synset[1].examples()))
+
+print("Example of book:"+str(synset[3].examples()))
+
+print("Synonys of book is :" + synset[12].lemmas()[0].name())
+
+import nltk
+from nltk.corpus import wordnet
+
+dog= wordnet.synsets('dog')[0] # Get the first Synset for 'dog'
+print("Hypernyms:", dog.hypernyms())
+print("Hyponyms:" ,dog.hyponyms())
+
+
+from nltk.corpus import wordnet as wn
+cars_synsets = wn.synsets('car.n.01')
+
+if cars_synsets:
+    first_car_synset = cars_synsets[0]
+    print(first_car_synset.part_meronyms())
+else:
+    print("No synsets found for 'car.n.01'")
+
+wn.synsets('bank')
+print(wn.synsets('bank'))
+
+s1 = wn.synsets('bank')[7]
+s2 = wn.synsets('bank')[1]
+print(s1.path_similarity(s2))
+print(s1.wup_similarity(s2))
+print(s1.lch_similarity(s2))
+
+wn.synsets('bank')
+print(wn.synsets('bank'))
+
+s1 = wn.synsets('dog')[0]
+s2 = wn.synsets('cat')[0]
+print(s1.path_similarity(s2))
+print(s1.wup_similarity(s2))
+print(s1.lch_similarity(s2))
+
+
+from nltk.wsd import lesk
+from nltk.tokenize import word_tokenize
+import nltk
+nltk.download('punkt_tab')
+
+sent = "RAM was deposited the cheque at the bank"
+print(word_tokenize(sent))
+print(lesk(word_tokenize(sent),'bank'))
+
+
+from nltk.wsd import lesk
+from nltk.tokenize import word_tokenize
+import nltk
+nltk.download('punkt_tab')
+
+sent = "Cauvery river bank was flooded"
+print(word_tokenize(sent))
+print(lesk(word_tokenize(sent),'bank'))
+
+
+from nltk.corpus import wordnet as wn
+from nltk.tokenize import word_tokenize
+import nltk
+
+
+nltk.download('punkt')
+nltk.download('wordnet')
+
+text = "The bank approved the loan near the river bank"
+
+words = word_tokenize(text.lower())
+
+
+for word in words:
+
+    synsets1 = wn.synsets(word)
+
+    if not synsets1:
+        continue
+
+    print(f"\nWord: {word}")
+
+    for context_word in words:
+
+        if word == context_word:
+            continue
+
+        synsets2 = wn.synsets(context_word)
+
+        if not synsets2:
+            continue
+
+
+        sim = synsets1[0].wup_similarity(synsets2[0])
+
+        print(f"{word} <-> {context_word} = {sim}")
+
+
+import nltk
+nltk.download("stopwords")
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+text = "NLTK, the Natural Language Toolkit, is a suite of open source program modules, tutorials and problem sets, providing ready-to-use computational linguistics courseware. NLTK covers symbolic and statistical natural language processing, and is interfaced to annotated corpora. Students augment and replace existing components, learn structured programming by example, and manipulate sophisticated models from the outset."
+stop_words = set(stopwords.words("english"))
+word_tokens = word_tokenize(text)
+filtered_text = [word for word in word_tokens if word.lower() not in stop_words]
+print(filtered_text)
+
+
+nltk.download('book')
+from nltk.book import *
+nltk.download('FreqDist')
+def find_100_nost_frequent_words(text):
+    fdist = FreqDist(w.lower() for w in text if w.isalpha() and w.lower() not in stopwords.words('english'))
+    return fdist.most_common(100)
+
+find_50_nost_frequent_words(text1)
+
+
+from nltk.corpus import brown
+from nltk import FreqDist
+
+brown_words = [word.lower() for word in brown.words() if word.isalpha()]
+freq = nltk.FreqDist(brown_words)
+res = [word for word, count in freq.items() if count >= 3]
+print(res)
+
+
+
+def find_50_most_frequent_bigrams(text):
+  bigram = list(nltk.bigrams(text))
+  fdist = FreqDist(b for b in bigram if b[0].isalpha() and b[1].isalpha()
+  and b[0] not in stopwords.words('english')
+  and b[1] not in stopwords.words('english'))
+  return fdist.most_common(50)
+
+
+
+find_50_most_frequent_bigrams(text3)
+
+
+def word_freq(word,section):
+  words = [w.lower() for w in brown.words(categories = section) if w.isalpha()]
+  freq = nltk.FreqDist(words)
+  return freq[word]
+
+word_freq('the','news')
+
+
+words = ['My','travel','destination','victory','arsenal']
+a  = words.sort()
+b = sorted(words)
+print(a)
+print(b)
+
+
+import nltk
+nltk.download('punkt_tab')
+
+from nltk.stem import PorterStemmer, LancasterStemmer
+from nltk.tokenize import word_tokenize
+
+text = "we are the champions my friend we keep on fighting till the end because we are the champion arsenal ya"
+tokens = word_tokenize(text)
+porter_stemmer = PorterStemmer()
+lancaster_stemmer = LancasterStemmer()
+
+porter_stems = [porter_stemmer.stem(word) for word in tokens]
+lancaster_stems = [lancaster_stemmer.stem(word) for word in tokens]
+
+print("Porter Stemmer :" , porter_stems)
+print("Lancaster Stemmer :" , lancaster_stems)
+
+
+import nltk
+from nltk.corpus import wordnet
+nltk.download('wordnet')
+words = ['education', 'fight', 'travel']
+for word in words:
+    synsets = wordnet.synsets(word)
+    print(f"\nWord: {word}")
+    if synsets:
+        print("Synset name:", synsets[0].name())
+        print("Definition:", synsets[0].definition())
+        print("Examples:", synsets[0].examples())
+    else:
+        print("No synsets found.")
+
+
+from nltk.corpus import wordnet
+
+noun1 = wordnet.synsets('car')[0]
+noun2 = wordnet.synsets('automobile')[0]
+
+verb1 = wordnet.synsets('run')[0]
+verb2 = wordnet.synsets('sprint')[0]
+
+print(noun1.wup_similarity(noun2))
+print(verb1.lch_similarity(verb2))
+
+
+import nltk
+from nltk.corpus import wordnet
+nltk.download('wordnet')
+words = ['artful','ballot','chorus', 'deceptive', 'enormous']
+for word in words:
+    synonyms =set()
+    antonyms = set()
+    for syn in wordnet.synsets(word):
+        for lemma in syn.lemmas():
+            synonyms.add(lemma.name())
+            if lemma.antonyms():
+                antonyms.add(lemma.antonyms()[0].name())
+    print("\nWord:", word)
+    print("Synonyms:",synonyms if synonyms else "None")
+    print("Antonyms:",antonyms if antonyms else "None")
+
+import nltk
+from nltk.tokenize import word_tokenize
+nltk.download('punkt')
+nltk.download("averaged_perceptron_tagger")
+nltk.download('punkt_tab')
+nltk.download('averaged_perceptron_tagger_eng')
+def pos_tagging(text):
+  words = word_tokenize(text)
+  tagged_words = nltk.pos_tag(words)
+  return tagged_words
+
+text = "Natural language Toolkit is a popular Python libraries used for building natural language processing applications"
+tagged_text = pos_tagging(text)
+print(tagged_text)
+
+from nltk import pos_tag
+from nltk.tokenize import word_tokenize
+text = "Natural language Toolkit is a popular Python libraries used for building natural language processing applications"
+tokens = word_tokenize(text)
+nltk.pos_tag(tokens)
+
+
+nltk.download('brown')
+nltk.download('nps_chat')
+nltk.download('treebank')
+nltk.download('indian')
+nltk.download('sinica_treebank')
+tag_words1 = nltk.corpus.brown.tagged_words()
+print(tag_words1)
+
+tag_words2 = nltk.corpus.nps_chat.tagged_words()
+print(tag_words2)
+
+tag_words3 = nltk.corpus.treebank.tagged_words()
+print(tag_words3)
+
+tag_words4 = nltk.corpus.indian.tagged_words()
+print(tag_words4)
+
+from nltk.corpus import brown
+from nltk import FreqDist
+nltk.download('universal_tagset') # Added to resolve LookupError
+brown_news_tagged = brown.tagged_words(categories='news', tagset='universal')
+tag_fd = nltk.FreqDist(tag for (word, tag) in brown_news_tagged)
+tag_fd.most_common()
+
+
+import nltk
+nltk.download('averaged_perceptron_tagger_eng')
+
+pairs = list(nltk.bigrams(text1))
+tagged_pairs = nltk.pos_tag([w for w in text1])
+
+for i in range(len(tagged_pairs) - 1):
+    if tagged_pairs[i][0].lower() == "must":
+        print("must +", tagged_pairs[i+1][0], "→", tagged_pairs[i+1][1])
+
+
+
+
+import nltk
+from nltk.corpus import brown
+brown_tagged_sents = brown.tagged_sents(categories='news')
+brown_sents = brown.sents(categories='news')
+patterns=[(r'.*ing$','VBG'),(r'.*ed$','VBD'),(r'.*es$','VBZ'),(r'.*ould$','MD'),(r'.*\'s$','NN$'),(r'.*s$','NNS'),(r'^-?[0-9]+(.[0-9]+)?$','CD')]
+regexp_tagger = nltk.RegexpTagger(patterns)
+regexp_tagger.tag(brown_sents[1])
+
+import nltk
+from nltk.corpus import brown
+
+nltk.download('brown')
+
+tagged_words = brown.tagged_words()
+
+bigram_tags = list(nltk.bigrams(tagged_words))
+
+words_following_must = []
+
+for bigram in bigram_tags:
+
+    zipped_tag = [list(t) for t in zip(*bigram)]
+
+    if zipped_tag[0][0] == 'must' or zipped_tag[0][0] == 'Must':
+
+        words_following_must.append(
+            (zipped_tag[0][1], zipped_tag[1][1])
+        )
+
+tags_following_must = set(
+    [tag for (word, tag) in words_following_must]
+)
+
+for bigram in bigram_tags:
+
+    zipped_tag = [list(t) for t in zip(*bigram)]
+
+    if zipped_tag[0][0] == 'must' or zipped_tag[0][0] == 'Must':
+
+        print(zipped_tag[0][0], zipped_tag[0][1])
+
+        if zipped_tag[1][1] in ['BE', 'BE-HL', 'NN', 'NNS', 'NP-HL']:
+
+            print("Context is likely epistemic")
+
+        elif zipped_tag[1][1] in [
+            'HV', 'HV-TL', 'DO', 'RB', 'RB-HL',
+            'VB', 'VB-HL', 'VB-TL', 'VBZ'
+        ]:
+
+            print("Context is likely deontic")
+
+        else:
+
+            print("Context is unclear")
+
+
+import nltk
+from nltk.corpus import brown
+nltk.download('brown')
+tagged_words = brown.tagged_words()
+bigram_tags = list(nltk.bigrams(tagged_words))
+for (word1,tag1),(word2,tag2) in bigram_tags:
+  if word1.lower()=='must' or word1.title()=='Must':
+    print(f"{word1},{word2}")
+
+
+import nltk
+from nltk.corpus import brown
+
+nltk.download('brown')
+
+epistemic = {'BE', 'BE-HL', 'NN', 'NNS', 'NP-HL'}
+deontic = {'HV', 'HV-TL', 'DO', 'RB', 'RB-HL', 'VB', 'VB-HL', 'VB-TL', 'VBZ'}
+
+for (w1, t1), (w2, t2) in nltk.bigrams(brown.tagged_words()):
+    if w1.lower() == 'must':
+        print(w1, t1)
+
+        if t2 in epistemic:
+            print("Context is likely epistemic")
+        elif t2 in deontic:
+            print("Context is likely deontic")
+        else:
+            print("Context is unclear")
+
+
+
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk import pos_tag, RegexpParser
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+
+def chunk_sentence(sentence):
+    words = word_tokenize(sentence)
+    tagged_words = pos_tag(words)
+
+    grammar = r"NP: {<DT>?<JJ>*<NN>}"
+    chunk_parser = RegexpParser(grammar)
+
+    return chunk_parser.parse(tagged_words)
+
+sentence = "The quick brown fox jumps over the lazy dog"
+
+chunked_sentence = chunk_sentence(sentence)
+
+print(chunked_sentence)
